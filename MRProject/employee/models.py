@@ -42,10 +42,10 @@ class DealsDetail(models.Model):
     def __str__(self):
         return f'Doctor - {self.doctor_name} : Product - {self.product_name}'
 
-    doctor_name = models.ForeignKey(Doctor, on_delete = models.CASCADE)
-    product_name = models.ForeignKey(Product, on_delete = models.DO_NOTHING)
+    doctor_name = models.CharField(max_length=256)
+    product_name = models.CharField(max_length=256)
     quantity_ordered = models.IntegerField()
-    employee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
+    employee = models.CharField(max_length=256)
 
 
     
