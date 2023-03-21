@@ -1,7 +1,16 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 # Create your models here.
+
+class Employee(models.Model):
+
+    employee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
+    date_of_joining = models.DateField(default=timezone.now())
+    status = models.CharField(max_length=10)
+
+
 class Product(models.Model):
 
     def __str__(self):
