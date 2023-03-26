@@ -10,33 +10,33 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = '__all__'
 
-    # name = forms.CharField(
-    #     widget = forms.TextInput(attrs={
-    #         'class':'form-control',
-    #         'placeholder':'Enter Product Name'
-    #     })
-    # )
-    # company = forms.CharField(
-    #     widget = forms.TextInput(attrs={
-    #         'class':'form-control',
-    #         'placeholder':'Enter Company Name'
-    #     })
-    # )
-    # image = forms.ImageField(
-    #     required=False
-    # )
-    # price = forms.CharField(
-    #     widget = forms.TextInput(attrs={
-    #         'class':'form-control',
-    #         'placeholder':'Product Price'
-    #     })
-    # )
-    # employee = forms.CharField(
-    #     widget = forms.TextInput(attrs={
-    #         'class':'form-control',
+    name = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Enter Product Name'
+        })
+    )
+    company = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Enter Company Name'
+        })
+    )
+    image = forms.ImageField(
+        required=False
+    )
+    price = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Product Price'
+        })
+    )
+    employee = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
             
-    #     })
-    # )
+        })
+    )
 
     
 
