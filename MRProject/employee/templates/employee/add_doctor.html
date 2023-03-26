@@ -3,5 +3,43 @@
     <title>Add Doctor</title>
 {% endblock %}
 {% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group row">
+        <label for="productname" class="col-sm-2 col-form-label">Doctor's Name:</label>
+        <div class="col-md-4">
+            {{form.name}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Specialisation:</label>
+        <div class="col-md-4">
+            {{form.specialisation}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Contact:</label>
+        <div class="col-md-4">
+            {{form.contact_number}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Location:</label>
+        <div class="col-md-4">
+            {{form.location}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Employee:</label>
+        <div class="col-md-4">
+            {{form.employee}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-4 w-max">
+          <button type="submit" class="btn btn-primary">Add Doctor</button>
+        </div>
+      </div>
 
+  </form>
 {% endblock %}

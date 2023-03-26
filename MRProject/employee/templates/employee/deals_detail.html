@@ -3,5 +3,37 @@
     <title>Deals Detail</title>
 {% endblock %}
 {% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group row">
+        <label for="productname" class="col-sm-2 col-form-label">Doctor Name:</label>
+        <div class="col-md-4">
+            {{form.doctor_name}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Product:</label>
+        <div class="col-md-4">
+            {{form.product_name}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Quanity:</label>
+        <div class="col-md-4">
+            {{form.quantity_ordered}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Employee</label>
+        <div class="col-md-4">
+            {{form.employee}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-4 w-max">
+          <button type="submit" class="btn btn-primary">Deal</button>
+        </div>
+      </div>
 
+  </form>
 {% endblock %}

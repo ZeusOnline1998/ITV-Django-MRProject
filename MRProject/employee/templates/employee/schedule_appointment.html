@@ -3,5 +3,37 @@
     <title>Schedule Appointment</title>
 {% endblock %}
 {% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group row">
+        <label for="productname" class="col-sm-2 col-form-label">Doctor's Name:</label>
+        <div class="col-md-4">
+            {{form.doctor_name}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Schedule Date:</label>
+        <div class="col-md-4">
+            {{form.date_of_schedule}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Schedule Time:</label>
+        <div class="col-md-4">
+            {{form.time_of_schedule}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">Employee: </label>
+        <div class="col-md-4">
+            {{form.employee}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-4 w-max">
+          <button type="submit" class="btn btn-primary">Schedule</button>
+        </div>
+      </div>
 
+  </form>
 {% endblock %}

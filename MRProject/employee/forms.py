@@ -59,7 +59,7 @@ class DoctorForm(forms.ModelForm):
     specialisation = forms.CharField(
         widget = forms.TextInput(attrs={
             'class':'form-control',
-            'placeholder':'Specialistion: Chest, Heart, Orthopaedic, etc'
+            'placeholder':'Chest, Heart, General, Orthopaedic, etc'
         })
     )
     

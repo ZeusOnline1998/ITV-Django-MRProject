@@ -2,16 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Product, DealsDetail, Doctor, DoctorSchedule
 from .forms import *
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 from django.views import View
 from django.http import HttpResponseRedirect
 
 # Create your views here.
 # @login_required(login_url='admin/')
-def index(request):
+class Index(View):
 
-    return render(request, 'employee/index.html')
+    template_name = 'employee/index.html'
 
 
 # def add_product(request):
@@ -33,7 +33,7 @@ def index(request):
 
 #     return render(request, 'employee/add_product.html', {'form' : product})
 
-class add_product(CreateView):
+class AddProduct(CreateView):
 
     model = Product
     form_class = ProductForm       
@@ -53,26 +53,73 @@ class add_product(CreateView):
         return redirect('employee_home')
 
 
-def view_products(request):
+class ViewProducts(ListView):
 
-    return render(request, 'employee/products.html')
-
-
-def add_doctor(request):
-
-    return render(request, 'employee/add_doctor.html')
+    model = Product
+    template_name = "employee/products.html"
 
 
-def schedule_appointment(request):
+class AddDoctor(CreateView):
 
-    return render(request, 'employee/schedule_appointment.html')
+    model = Doctor
+    form_class = DoctorForm       
+    template_name = 'employee/add_doctor.html'
+    success_url = reverse_lazy('employee_home')
+
+    def get(self, request):
+        form = self.form_class(initial={'employee': request.user.first_name})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(data = request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            print("Error Processing Data")
+        return redirect('employee_home')
 
 
-def schedule(request):
+class ScheduleAppointment(CreateView):
 
-    return render(request, 'employee/schedule.html')
+    model = DoctorSchedule
+    form_class = DoctorScheduleForm       
+    template_name = 'employee/schedule_appointment.html'
+    success_url = reverse_lazy('employee_home')
+
+    def get(self, request):
+        form = self.form_class(initial={'employee': request.user.first_name})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(data = request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            print("Error Processing Data")
+        return redirect('employee_home')
 
 
-def deals_detail(request):
+class Schedule(ListView):
 
-    return render(request, 'employee/deals_detail.html')
+    model = DoctorSchedule
+    template_name = 'employee/schedule.html'
+
+
+class DealsDetailView(CreateView):
+
+    model = DealsDetail
+    form_class = DealsDetailForm       
+    template_name = 'employee/deals_detail.html'
+    success_url = reverse_lazy('employee_home')
+
+    def get(self, request):
+        form = self.form_class(initial={'employee': request.user.first_name})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(data = request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            print("Error Processing Data")
+        return redirect('employee_home')
