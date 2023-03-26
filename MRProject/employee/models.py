@@ -7,7 +7,7 @@ from django.utils import timezone
 class Employee(models.Model):
 
     employee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
-    date_of_joining = models.DateField(default=timezone.now())
+    date_of_joining = models.DateField(default=timezone.now)
     status = models.CharField(max_length=10)
 
 
@@ -18,7 +18,7 @@ class Product(models.Model):
     
     name = models.CharField(max_length=256, null = False)
     company = models.CharField(max_length=256, null = False)
-    image = models.ImageField(null = True, blank = True)
+    image = models.ImageField(null = True, blank = True, upload_to= 'images/')
     price = models.IntegerField(null = False)
     employee = models.CharField(max_length=256)
 
