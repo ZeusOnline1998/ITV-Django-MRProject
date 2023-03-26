@@ -34,7 +34,7 @@ class ProductForm(forms.ModelForm):
     employee = forms.CharField(
         widget = forms.TextInput(attrs={
             'class':'form-control',
-            
+            'disabled' : 'true',
         })
     )
 
@@ -49,14 +49,101 @@ class DoctorForm(forms.ModelForm):
         model = Doctor
         fields = '__all__'
 
+    name = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Doctor\'s Name'
+        })
+    )
+    
+    specialisation = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Specialistion: Chest, Heart, Orthopaedic, etc'
+        })
+    )
+    
+    contact_number = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Doctor\'s Contact Number'
+        })
+    )
+    
+    location = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Doctor\'s Location'
+        })
+    )
+    
+    employee = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'disabled' : 'true'
+        })
+    )
+    
+    
+
 class DoctorScheduleForm(forms.ModelForm):
 
     class Meta:
         model = DoctorSchedule
         fields = '__all__'
 
+    name = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Doctor\'s Name'
+        })
+    )
+
+    date_of_schedule = forms.DateField(
+        widget = forms.DateInput()
+    )
+
+    time_of_schedule = forms.TimeField(
+        widget = forms.TimeInput()
+    )
+
+    employee = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class': 'form-control',
+            'disabled' : 'true'
+        })
+    )
+
 class DealsDetailForm(forms.ModelForm):
 
     class Meta:
         model = DealsDetail
         fields = '__all__'
+
+    doctor_name = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Doctor\'s Name'
+        })
+    )
+
+    product_name = forms.ModelChoiceField(
+        queryset=Product.objects.all(),
+        widget = forms.ChoiceWidget(attrs={
+            'class': 'custom-select',
+        })
+    )
+
+    quantity_ordered = forms.CharField(
+        widget = forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder':'Enter product quantity',
+        })
+    )
+
+    employee = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class': 'form-control',
+            'disabled' : 'true'
+        })
+    )
