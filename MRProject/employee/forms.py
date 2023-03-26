@@ -120,20 +120,20 @@ class DealsDetailForm(forms.ModelForm):
         model = DealsDetail
         fields = '__all__'
 
-    doctor_name = forms.CharField(
-        widget = forms.TextInput(attrs={
-            'class':'form-control',
-            'placeholder':'Doctor\'s Name'
-        })
-    )
 
-    product_name = forms.ModelChoiceField(
-        queryset=Product.objects.all(),
+    doctor_name = forms.ModelChoiceField(
+        queryset=Doctor.objects.all(),
         widget = forms.ChoiceWidget(attrs={
             'class': 'custom-select',
         })
     )
 
+    product_name = forms.CharField(
+        widget = forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Product Name'
+        })
+    )
     quantity_ordered = forms.CharField(
         widget = forms.NumberInput(attrs={
             'class': 'form-control',
