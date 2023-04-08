@@ -1,0 +1,41 @@
+{% extends 'base/admin_base.html' %}
+{% block title %}
+    <title>List Products</title>
+{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Sr No.</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Product Image</th>
+            <th scope="col">Product Price</th>
+            <th scope="col">Entered By</th>
+        </tr>
+    </thead>
+    
+    {% for product in products %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{product.name}}</td>
+            <td>{{product.company}}</td>
+            <td>
+                {% if product.image %}
+                <img src="{{product.image.url}}" style="width: 100px; height: 100px;">
+                {% else %}
+                No image
+                {% endif %}
+            </td>
+            <td>{{product.price}}</td>
+            <td>{{product.employee}}</td>
+        </tr>
+         
+    {% endfor %}
+</table>
+{% endblock %}

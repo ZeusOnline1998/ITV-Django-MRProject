@@ -9,9 +9,14 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 # @login_required(login_url='admin/')
-class Index(View):
+# class Index(View):
 
-    template_name = 'employee/index.html'
+#     template_name = 'employee/index.html'
+
+@login_required
+def index(request):
+
+    return render(request, 'employee/index.html')
 
 
 # def add_product(request):
@@ -103,6 +108,12 @@ class Schedule(ListView):
 
     model = DoctorSchedule
     template_name = 'employee/schedule.html'
+
+    def post(self, request):
+
+        today = DoctorSchedule.objects.filter(date_of_schedule=request.POST['schedule_date']).order_by('time_of_schedule')
+
+        return render(request, self.template_name, {'context' : today})
 
 
 class DealsDetailView(CreateView):

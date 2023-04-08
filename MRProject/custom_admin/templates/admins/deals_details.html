@@ -1,0 +1,31 @@
+{% extends 'base/admin_base.html' %}
+{% block title %}
+    <title>Add Products</title>
+{% endblock %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Sr No.</th>
+                <th scope="col">Total Deals Done</th>
+                <th scope="col">Employee</th>
+            </tr>
+        </thead>
+        {% if deals %}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{deals}}</td>
+                <td>{{employee}}</td>
+            </tr>
+        {% elif employee %}
+            <tr>
+                <td colspan="3">No deals made by {{employee}}</td>
+            </tr>
+        {% endif %}
+    </table>
+{% endblock %}

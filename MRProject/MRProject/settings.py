@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'employee',
+    'custom_admin',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +134,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 #Login redirect url
 LOGIN_REDIRECT_URL = 'employee_home'
 
-# LOGIN_URL = 'admin/'
+LOGIN_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

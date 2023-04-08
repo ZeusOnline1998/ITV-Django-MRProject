@@ -3,5 +3,34 @@
     <title>Today's Schedule</title>
 {% endblock %}
 {% block content %}
+<form method="post">
+    {% csrf_token %}
+    <label>Select Date: </label>
+    <input type="date" id="schedule_date" name="schedule_date">
 
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Sr No.</th>
+            <th scope="col">Doctor Name</th>
+            <th scope="col">Date of Meeting</th>
+            <th scope="col">Time of Meeting</th>
+            <th scope="col">Entered By</th>
+        </tr>
+    </thead>
+    
+    {% for schedule in context %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{schedule.doctor_name}}</td>
+            <td>{{schedule.date_of_schedule}}</td>
+            <td>{{schedule.time_of_schedule}}</td>
+            <td>{{schedule.employee}}</td>
+        </tr>
+        
+    {% endfor %}
+</table>
 {% endblock %}

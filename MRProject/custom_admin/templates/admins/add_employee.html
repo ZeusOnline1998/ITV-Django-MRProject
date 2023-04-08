@@ -1,0 +1,54 @@
+{% extends 'base/admin_base.html' %}
+{% block title %}
+    <title>Add Employee</title>
+{% endblock %}
+{% block content %}
+<form method="post" class="login-form">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col mb-3 ml-3">
+            {{form.first_name}}
+        </div>
+        <div class="col mb-3 mr-3">
+            {{form.last_name}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3 ml-3">
+            {{form.email}}
+        </div>
+        <div class="col mb-3 mr-3">
+            {{form.username}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3 ml-3">
+            {{form.password1}}
+        </div>
+        <div class="col mb-3 mr-3">
+            {{form.password2}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mb-3 ml-3">
+            <label class="text-dark text-lg">Joining Date:</label>
+            {{form.date_joined}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mb-3 ml-3">
+            <label class="text-dark text-lg">Set status</label>
+            {{form.is_staff}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col ml-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+
+</form>
+{% endblock %}

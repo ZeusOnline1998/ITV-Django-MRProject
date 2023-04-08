@@ -1,7 +1,6 @@
 from django import forms
 from .models import Product, Doctor, DoctorSchedule, DealsDetail
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+
 
 
 class ProductForm(forms.ModelForm):
@@ -34,7 +33,7 @@ class ProductForm(forms.ModelForm):
     employee = forms.CharField(
         widget = forms.TextInput(attrs={
             'class':'form-control',
-            'disabled' : 'true',
+            # 'disabled' : 'true',   # We dont need disabled otherwise it will throw error while POST method is called
         })
     )
 
@@ -80,7 +79,7 @@ class DoctorForm(forms.ModelForm):
     employee = forms.CharField(
         widget = forms.TextInput(attrs={
             'class':'form-control',
-            'disabled' : 'true'
+            # 'disabled' : 'true'
         })
     )
     
@@ -92,25 +91,27 @@ class DoctorScheduleForm(forms.ModelForm):
         model = DoctorSchedule
         fields = '__all__'
 
-    name = forms.CharField(
-        widget = forms.TextInput(attrs={
-            'class':'form-control',
-            'placeholder':'Doctor\'s Name'
-        })
+    doctor_name = forms.ModelChoiceField(
+        queryset=Doctor.objects.all(),
+        widget = forms.Select()
     )
 
     date_of_schedule = forms.DateField(
-        widget = forms.DateInput()
+        widget = forms.DateInput(attrs={
+            'type': 'date'
+        })
     )
 
     time_of_schedule = forms.TimeField(
-        widget = forms.TimeInput()
+        widget = forms.TimeInput(attrs={
+            'type': 'time'
+        })
     )
 
     employee = forms.CharField(
         widget = forms.TextInput(attrs={
             'class': 'form-control',
-            'disabled' : 'true'
+            # 'disabled' : 'true'
         })
     )
 
@@ -123,9 +124,7 @@ class DealsDetailForm(forms.ModelForm):
 
     doctor_name = forms.ModelChoiceField(
         queryset=Doctor.objects.all(),
-        widget = forms.ChoiceWidget(attrs={
-            'class': 'custom-select',
-        })
+        widget = forms.Select()
     )
 
     product_name = forms.CharField(
@@ -144,6 +143,6 @@ class DealsDetailForm(forms.ModelForm):
     employee = forms.CharField(
         widget = forms.TextInput(attrs={
             'class': 'form-control',
-            'disabled' : 'true'
+            # 'disabled' : 'true'
         })
     )

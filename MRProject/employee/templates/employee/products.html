@@ -3,5 +3,26 @@
     <title>All Products</title>
 {% endblock %}
 {% block content %}
-
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Sr No.</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">Product Price</th>
+                <th scope="col">Entered By</th>
+            </tr>
+        </thead>
+        
+        {% for product in object_list %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{product.name}}</td>
+                <td>{{product.company}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.employee}}</td>
+            </tr>
+            
+        {% endfor %}
+    </table>
 {% endblock %}

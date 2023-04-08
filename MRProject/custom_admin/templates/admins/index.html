@@ -1,0 +1,65 @@
+{% extends 'base/admin_base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Admin Dashboard</h1>
+            
+        </div>
+
+        <!-- Content Row -->
+        
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Employee
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'add_employee' %}"><div class="card-title col-auto d-inline-block">Create Employee</div></a>
+                        <a href="{% url 'list_employee' %}"><div class="card-title col-auto d-inline-block">List Employees</div></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Product
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'admin_products' %}"><div class="card-title col-auto d-inline-block">List Products</div></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Deals
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'admin_deals' %}"><div class="card-title col-auto d-inline-block">Deals Details</div></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Visit Details
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'admin_visit_details' %}"><div class="card-title col-auto d-inline-block">Visit Details</div></a>
+                    </div>
+                </div>
+            </div>  
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+    
+{% endblock %}
