@@ -6,7 +6,7 @@
 <form method="post">
     {% csrf_token %}
     <label>Select Date: </label>
-    <input type="date" id="schedule_date" name="schedule_date">
+    <input type="date" id="schedule_date" name="schedule_date" min={new Date().toISOString().split('T')[0]} value={new Date().toISOString().substr(0, 10)}>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
@@ -33,4 +33,21 @@
         
     {% endfor %}
 </table>
+
+<script type="text/javascript">
+    $(function(){
+        var dtToday = new Date();
+     
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+            month = '0' + month.toString();
+        if(day < 10)
+         day = '0' + day.toString();
+        var maxDate = year + '-' + month + '-' + day;
+        $('#schedule_date').attr('min', maxDate);
+        $('#schedule_date').attr('value', maxDate);
+    });
+</script>
 {% endblock %}

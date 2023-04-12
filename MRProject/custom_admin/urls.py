@@ -9,6 +9,7 @@ urlpatterns = [
     #Employee
     path('add-employee/', views.CreateEmployee.as_view(), name='add_employee'),
     path('employees/', views.ListEmployee.as_view(), name='list_employee'),
+    path('update-employee/<pk>/', views.UpdateEmployee.as_view(), name='update_employee'),
 
     #Products
     path('products/', views.ListProducts.as_view(), name = 'admin_products'),

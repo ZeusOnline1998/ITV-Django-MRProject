@@ -133,7 +133,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 #Login redirect url
 LOGIN_REDIRECT_URL = 'employee_home'
-
+LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
 
 # Default primary key field type

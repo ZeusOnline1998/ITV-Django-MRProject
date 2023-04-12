@@ -20,7 +20,7 @@
                     </div>
                     <div class="card-body">
                         <a href="{% url 'add_employee' %}"><div class="card-title col-auto d-inline-block">Create Employee</div></a>
-                        <a href="{% url 'list_employee' %}"><div class="card-title col-auto d-inline-block">List Employees</div></a>
+                        <a href="{% url 'list_employee' %}"><div class="card-title col-auto d-inline-block">List Employees</div></a> <div class="badge badge-success">{{employee_count}}</div>
                     </div>
                 </div>
             </div>

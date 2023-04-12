@@ -7,11 +7,11 @@ urlpatterns = [
     ##Authentication
     path('login/', auth_view.LoginView.as_view(template_name='login.html'), name='login'),
     # path('register/', views.register, name='register'),
-    path('logout/', auth_view.LogoutView.as_view(template_name='login.html'), name='logout'),
+    path('logout/', auth_view.LogoutView.as_view(), name='logout'),
 
     ##Products
     path('product_add/', views.AddProduct.as_view(), name = 'add_product'),
-    path('products/', views.ViewProducts.as_view(), name = 'products'),
+    path('products/<int:page>', views.ViewProducts.as_view(), name = 'products'),
 
     ##Doctors
     path('doctor_add/', views.AddDoctor.as_view(), name = 'add_doctor'),

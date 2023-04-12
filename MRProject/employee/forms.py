@@ -126,13 +126,12 @@ class DealsDetailForm(forms.ModelForm):
         queryset=Doctor.objects.all(),
         widget = forms.Select()
     )
-
-    product_name = forms.CharField(
-        widget = forms.TextInput(attrs={
-            'class':'form-control',
-            'placeholder':'Product Name'
-        })
+    
+    product_name = forms.ModelChoiceField(
+        queryset=Product.objects.all(),
+        widget = forms.Select()
     )
+
     quantity_ordered = forms.CharField(
         widget = forms.NumberInput(attrs={
             'class': 'form-control',

@@ -1,6 +1,11 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.contrib.auth.models import User
+
+
+#Make email unique
+User._meta.get_field('email')._unique = True
 
 # Create your models here.
 
@@ -16,6 +21,12 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+    def save(self):
+
+        self.name = self.name.title()
+        self.company = self.company.title()
+        super().save()
+    
     name = models.CharField(max_length=256, null = False)
     company = models.CharField(max_length=256, null = False)
     image = models.ImageField(null = True, blank = True, upload_to= 'images/')
@@ -28,6 +39,15 @@ class Doctor(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self):
+        if not self.name.startswith('Dr.') or not self.name.startswith('dr.'):
+            self.name = 'Dr. '+self.name
+        self.name = self.name.title()
+        self.specialisation = self.specialisation.title()
+        self.location = self.location.title()
+
+        super().save()
+        
     name = models.CharField(max_length=256, null = False)
     specialisation = models.CharField(max_length=100, null = False)
     contact_number = models.CharField(max_length=10, null = False)

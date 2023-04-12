@@ -6,6 +6,7 @@ from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 from django.views import View
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 # Create your views here.
 # @login_required(login_url='admin/')
@@ -16,7 +17,12 @@ from django.http import HttpResponseRedirect
 @login_required
 def index(request):
 
-    return render(request, 'employee/index.html')
+    product_count = Product.objects.all().count()
+    
+    context = {
+        'product_count': product_count,
+    }
+    return render(request, 'employee/index.html', context)
 
 
 # def add_product(request):
@@ -43,7 +49,7 @@ class AddProduct(CreateView):
     model = Product
     form_class = ProductForm       
     template_name = 'employee/add_product.html'
-    success_url = reverse_lazy('employee_home')
+    success_url = reverse_lazy('products')
 
     def get(self, request):
         form = self.form_class(initial={'employee': request.user.first_name})
@@ -53,15 +59,17 @@ class AddProduct(CreateView):
         form = self.form_class(data = request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(self.request, "Product added successfully")
         else:
-            print("Error Processing Data")
-        return redirect('employee_home')
+            messages.error(self.request, "Error processing data")
+        return redirect('products')
 
 
 class ViewProducts(ListView):
 
     model = Product
     template_name = "employee/products.html"
+    paginate_by = 7
 
 
 class AddDoctor(CreateView):
@@ -79,8 +87,9 @@ class AddDoctor(CreateView):
         form = self.form_class(data = request.POST)
         if form.is_valid():
             form.save()
+            messages.success(self.request, "Doctor information added successfully")
         else:
-            print("Error Processing Data")
+            messages.error(self.request, "Error Processing Data")
         return redirect('employee_home')
 
 
@@ -99,8 +108,9 @@ class ScheduleAppointment(CreateView):
         form = self.form_class(data = request.POST)
         if form.is_valid():
             form.save()
+            messages.success(self.request, "Appointment Scheduled")
         else:
-            print("Error Processing Data")
+            messages.error(self.request, "Error Processing Data")
         return redirect('employee_home')
 
 
@@ -131,6 +141,7 @@ class DealsDetailView(CreateView):
         form = self.form_class(data = request.POST)
         if form.is_valid():
             form.save()
+            messages.success(self.request, "Deals closed")
         else:
-            print("Error Processing Data")
+            messages.error(self.request, "Error Processing Data")
         return redirect('employee_home')

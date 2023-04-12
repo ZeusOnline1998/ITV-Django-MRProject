@@ -102,7 +102,7 @@
                     </div>
                     <div class="card-body">
                         <a href="{% url 'add_product' %}"><div class="card-title col-auto d-inline-block">Add Products</div></a>
-                        <a href="{% url 'products' %}"><div class="card-title col-auto d-inline-block">List Products</div></a>
+                        <a href="{% url 'products' 1 %}"><div class="card-title col-auto d-inline-block">List Products</div></a> <div class="badge badge-success">{{product_count}}</div>
                     </div>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                         Schedule
                     </div>
                     <div class="card-body">
-                        <a href="{% url 'today_schedule' %}"><div class="card-title col-auto d-inline-block">Today's Schedule</div></a>
+                        <a href="{% url 'today_schedule' %}"><div class="card-title col-auto d-inline-block">Today's Schedule</div></a> <div class="badge badge-success">{{schedule_count}}</div>
                         
                     </div>
                 </div>

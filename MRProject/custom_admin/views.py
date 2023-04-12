@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView, ListView, View
+from django.views.generic import CreateView, ListView, View, UpdateView
 from django.contrib.auth.models import User
 from employee.models import Product, DealsDetail, Doctor, DoctorSchedule
 from .forms import RegistrationForm, AdminProductForm, AdminDealsDetailForm, AdminDoctorScheduleForm
 from employee.forms import *
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def index(request):
 
-    return render(request, 'admins/index.html')
+    employee_count = User.objects.all().count()
+    return render(request, 'admins/index.html', {'employee_count': employee_count})
 
 
 class CreateEmployee(CreateView):
@@ -28,6 +31,15 @@ class ListEmployee(ListView):
     model = User
     template_name = 'admins/list_employees.html'
 
+
+class UpdateEmployee(UpdateView):
+
+    model = User
+    template_name = 'admins/update_employee.html'
+
+    fields = ['first_name', 'last_name', 'email', 'is_staff']
+
+    success_url = reverse_lazy('list_employee')
 
 class ListProducts(ListView):
 

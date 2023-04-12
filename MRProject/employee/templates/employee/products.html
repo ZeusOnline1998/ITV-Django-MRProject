@@ -3,6 +3,8 @@
     <title>All Products</title>
 {% endblock %}
 {% block content %}
+
+    <!-- <input id="search" type="text" placeholder="Search.."> -->
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -13,16 +15,46 @@
                 <th scope="col">Entered By</th>
             </tr>
         </thead>
-        
-        {% for product in object_list %}
-            <tr>
-                <th scope="row">{{forloop.counter}}</th>
-                <td>{{product.name}}</td>
-                <td>{{product.company}}</td>
-                <td>{{product.price}}</td>
-                <td>{{product.employee}}</td>
-            </tr>
-            
-        {% endfor %}
+            <tbody id="product">
+                {% for product in object_list %}
+                <tr >
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td class="name">{{product.name}}</td>
+                    <td>{{product.company}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.employee}}</td>
+                </tr>
+                
+                {% endfor %}
+            </tbody>
     </table>
+    
+    <nav aria-label="Page navigation">
+        <ul>
+            
+        </ul>
+        {% for page_number in page_obj.paginator.get_elided_page_range %}
+            {% if page_number == page_obj.paginator.ELLIPSIS %}
+                {{page_number}}
+            {% else %}
+                <a
+                    href="{% url 'products' page_number %}"
+                    class="{% if page_number == page_obj.number %}current{% endif %}"
+                >
+                    {{page_number}}
+                </a>
+            {% endif %}
+        {% endfor %}
+    </nav>
+    
+    <!-- <script>
+        $(document).ready(function(){
+          $("#search").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#product tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+    </script> -->
 {% endblock %}
