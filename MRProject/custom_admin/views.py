@@ -84,6 +84,29 @@ class AdminDealsDetail(ListView):
         }
         return render(request, self.template_name, context)
 
+
+class AdminDeals(ListView):
+
+    model = DealsDetail
+    form_class = AdminDealsDetailForm
+    template_name = 'admins/deals.html'
+
+    def get(self, request):
+
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+
+        form = self.form_class()
+        deals = DealsDetail.objects.filter(employee = request.POST['employee'])
+        context = {
+            'form': form,
+            'deals': deals
+        }
+        return render(request, self.template_name, context)
+    
+
 class AdminDoctorSchedule(ListView):
 
     model = DoctorSchedule

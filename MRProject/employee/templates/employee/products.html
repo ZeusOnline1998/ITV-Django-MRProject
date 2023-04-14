@@ -30,21 +30,22 @@
     </table>
     
     <nav aria-label="Page navigation">
-        <ul>
-            
-        </ul>
+        <ul class="pagination">       
         {% for page_number in page_obj.paginator.get_elided_page_range %}
             {% if page_number == page_obj.paginator.ELLIPSIS %}
                 {{page_number}}
             {% else %}
-                <a
+                <li class="page-item">
+                    <a
                     href="{% url 'products' page_number %}"
-                    class="{% if page_number == page_obj.number %}current{% endif %}"
-                >
+                    class="{% if page_number == page_obj.number %}current{% endif %} page-link"
+                    >
                     {{page_number}}
-                </a>
+                    </a>
+                </li>
             {% endif %}
         {% endfor %}
+        </ul>
     </nav>
     
     <!-- <script>

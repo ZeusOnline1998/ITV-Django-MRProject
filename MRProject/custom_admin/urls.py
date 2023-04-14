@@ -15,7 +15,8 @@ urlpatterns = [
     path('products/', views.ListProducts.as_view(), name = 'admin_products'),
 
     #Deals
-    path('deals/', views.AdminDealsDetail.as_view(), name = 'admin_deals'),
+    path('deals/', views.AdminDeals.as_view(), name = 'admin_deals'),
+    path('deals-details/', views.AdminDealsDetail.as_view(), name = 'admin_deals_details'),
 
     #VisitDetails
     path('visit-details/', views.AdminDoctorSchedule.as_view(), name = 'admin_visit_details'),
