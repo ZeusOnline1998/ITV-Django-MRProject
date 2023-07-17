@@ -1,31 +1,70 @@
 {% extends 'base/admin_base.html' %}
 {% block title %}
-    <title>Add Products</title>
+    <title>List Products</title>
 {% endblock %}
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{form}}
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+<form method="get" id="pform">
+    <!-- {% csrf_token %} -->
+    {{form}}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
     <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Sr No.</th>
-                <th scope="col">Total Deals Done</th>
-                <th scope="col">Employee</th>
+                <th scope="col">Doctor Name</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity Ordered</th>
+                <th scope="col">Entered By</th>
             </tr>
         </thead>
-        {% if deals %}
+        
+        <!-- {% for deal in deals %}
             <tr>
-                <th scope="row">1</th>
-                <td>{{deals}}</td>
-                <td>{{employee}}</td>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{deal.doctor_name}}</td>
+                <td>{{deal.product_name}}</td>
+                <td>{{deal.quantity_ordered}}</td>
+                <td>{{deal.employee}}</td>
             </tr>
-        {% elif employee %}
-            <tr>
-                <td colspan="3">No deals made by {{employee}}</td>
-            </tr>
-        {% endif %}
+            
+        {% endfor %} -->
+
+        <tbody id="pbody">
+
+        </tbody>
     </table>
+
+<script>
+    $(document).ready(function() {
+        $('#pform').submit(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+               method : "GET",
+               url : "{% url 'deals_details_api' %}",
+               data : {
+                "employee" : $("#id_employee").val()
+               },
+               success : function(response) {
+                $('#pbody').empty();
+                console.log(response)
+                response.map((item, index) => {
+                    index = index + 1
+                    
+                    $('#pbody').append(
+                        `<tr>
+                            <td>${index}</td>
+                            <td>${item.doctor_name}</td>
+                            <td>${item.product_name}</td>
+                            <td>${item.quantity_ordered}</td>
+                            <td>${item.employee}</td>
+                            </tr>`
+                    )
+                })
+               }
+            });
+        })
+    })
+</script>
 {% endblock %}

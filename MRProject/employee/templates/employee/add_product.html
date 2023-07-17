@@ -3,7 +3,7 @@
     <title>Add Products</title>
 {% endblock %}
 {% block content %}
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" id="pform">
     {% csrf_token %}
     <div class="form-group row">
         <label for="productname" class="col-sm-2 col-form-label">Product:</label>
@@ -42,4 +42,25 @@
       </div>
 
   </form>
+
+  <script>
+    $(document).ready(function() {
+        $('#pbody').submit(function(e) {
+            // e.preventDefault();
+            console.log(new FormData())
+            $.ajax({
+                method : "POST",
+                url : "{% url 'add_products_api' %}",
+                
+                data : {
+                    name : $('#id_name').val(),
+                    company : $('#id_company').val(),
+                    image : $('#id_image').val(),
+                    price : $('#id_price').val(),
+                    employee : $('#id_employee').val(),
+                }
+            })
+        })
+    })
+  </script>
 {% endblock %}

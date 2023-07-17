@@ -3,8 +3,8 @@
     <title>List Products</title>
 {% endblock %}
 {% block content %}
-<form method="post">
-    {% csrf_token %}
+<form method="get" id="pform">
+    <!-- {% csrf_token %} -->
     {{form}}
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
@@ -19,34 +19,68 @@
             <th scope="col">Entered By</th>
         </tr>
     </thead>
+    <tbody id="pbody">
+        {% for product in products %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{product.name}}</td>
+                <td>{{product.company}}</td>
+                <td>
+                    {% if product.image %}
+                    <img src="{{product.image.url}}" style="width: 100px; height: 100px;">
+                    {% else %}
+                    No image
+                    {% endif %}
+                </td>
+                <td>{{product.price}}</td>
+                <td>{{product.employee}}</td>
+            </tr>      
+        {% endfor %}
+    </tbody>
     
-    {% for product in products %}
-        <tr>
-            <th scope="row">{{forloop.counter}}</th>
-            <td>{{product.name}}</td>
-            <td>{{product.company}}</td>
-            <td>
-                {% if product.image %}
-                <img src="{{product.image.url}}" style="width: 100px; height: 100px;">
-                {% else %}
-                No image
-                {% endif %}
-            </td>
-            <td>{{product.price}}</td>
-            <td>{{product.employee}}</td>
-        </tr>
-         
-    {% endfor %}
 </table>
 
 <script>
-    $(document).ready(function(){
-      $("#search").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#product tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-      });
-    });
+    // $(document).ready(function(){
+    //   $("#search").on("keyup", function() {
+    //     var value = $(this).val().toLowerCase();
+    //     $("#product tr").filter(function() {
+    //       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    //     });
+    //   });
+    // });
+
+    $(document).ready(function() {
+        $('#pform').submit(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+               method : "GET",
+               url : "{% url 'products_api' %}",
+               data : {
+                "first_name" : $("#id_first_name").val()
+               },
+               success : function(response) {
+                $('#pbody').empty();
+                console.log(response)
+                response.map((item, index) => {
+                    index = index + 1
+                    // console.log()
+                    img_url = item.image.url
+                    $('#pbody').append(
+                        `<tr>
+                            <td>${index}</td>
+                            <td>${item.name}</td>
+                            <td>${item.company}</td>
+                            <td><img src="/media/${item.image}" style="width: 100px; height: 100px;"></td>
+                            <td>${item.price}</td>
+                            <td>${item.employee}</td>
+                            </tr>`
+                    )
+                })
+               }
+            });
+        })
+    })
 </script>
 {% endblock %}

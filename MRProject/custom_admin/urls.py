@@ -20,4 +20,8 @@ urlpatterns = [
 
     #VisitDetails
     path('visit-details/', views.AdminDoctorSchedule.as_view(), name = 'admin_visit_details'),
+
+    #API Calls
+    path('api/products/', views.ListProductsAPI.as_view(), name = 'products_api'),
+    path('api/deals-details/', views.AdminDealsDetailAPI.as_view(), name = 'deals_details_api'),
 ]

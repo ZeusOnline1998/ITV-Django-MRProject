@@ -7,6 +7,14 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+from rest_framework.views import APIView
+from .serializers import *
+from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.renderers import TemplateHTMLRenderer
+
 
 # Create your views here.
 # @login_required(login_url='admin/')
@@ -49,20 +57,32 @@ class AddProduct(CreateView):
     model = Product
     form_class = ProductForm       
     template_name = 'employee/add_product.html'
-    success_url = reverse_lazy('products')
+    success_url = reverse_lazy('products', kwargs = {"page": 1})
 
     def get(self, request):
         form = self.form_class(initial={'employee': request.user.first_name})
         return render(request, self.template_name, {'form': form})
 
+    
+    
+class AddProductAPI(APIView):
+
+    model = Product
+    serializer_class = ProductSerializer
+    template_name = 'employee/add_product.html'
+    renderer_classes = [TemplateHTMLRenderer]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def get(self, request):
+        serializer = ProductSerializer()
+        return Response({"serializer": serializer})
+
+
     def post(self, request):
-        form = self.form_class(data = request.POST, files=request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(self.request, "Product added successfully")
-        else:
-            messages.error(self.request, "Error processing data")
-        return redirect('products')
+        serializer = ProductSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            
 
 
 class ViewProducts(ListView):
@@ -145,3 +165,28 @@ class DealsDetailView(CreateView):
         else:
             messages.error(self.request, "Error Processing Data")
         return redirect('employee_home')
+    
+
+def user_login(request):
+
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        # print(form)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            # print(username, password)
+            user = authenticate(username=username, password=password)
+            # print(user.is_staff)
+            if user is not None:
+                if user.is_staff:
+                    login(request, user)
+                    return redirect('employee_home')
+                else:
+                    messages.error(request, "User not allowed access here")
+            else:
+                messages.error(request, "User not found")
+        
+            
+    form = AuthenticationForm()
+    return render(request, 'login.html', {"form":form})

@@ -1,45 +1,29 @@
 {% extends 'base/admin_base.html' %}
 {% block title %}
-    <title>List Products</title>
+    <title>Add Products</title>
 {% endblock %}
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-{% if deals %}
+    <!-- <form method="post">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form> -->
     <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Sr No.</th>
-                <th scope="col">Doctor Name</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">Quantity Ordered</th>
-                <th scope="col">Entered By</th>
+                <th scope="col">Total Deals Done</th>
+                <th scope="col">Employee</th>
             </tr>
         </thead>
         
         {% for deal in deals %}
             <tr>
                 <th scope="row">{{forloop.counter}}</th>
-                <td>{{deal.doctor_name}}</td>
-                <td>{{deal.product_name}}</td>
-                <td>{{deal.quantity_ordered}}</td>
+                <td>{{deal.total}}</td>
                 <td>{{deal.employee}}</td>
             </tr>
-            
         {% endfor %}
+        
     </table>
-{% endif %}
-<script>
-    $(document).ready(function(){
-      $("#search").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#product tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-      });
-    });
-</script>
 {% endblock %}

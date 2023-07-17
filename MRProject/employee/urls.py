@@ -5,7 +5,8 @@ from django.contrib.auth import views as auth_view
 urlpatterns = [
     path('', views.index, name = 'employee_home'),
     ##Authentication
-    path('login/', auth_view.LoginView.as_view(template_name='login.html'), name='login'),
+    # path('login/', auth_view.LoginView.as_view(template_name='login.html'), name='login'),
+    path('login/', views.user_login, name = 'login'),
     # path('register/', views.register, name='register'),
     path('logout/', auth_view.LogoutView.as_view(), name='logout'),
 
@@ -22,4 +23,7 @@ urlpatterns = [
 
     #Deals
     path('deals/', views.DealsDetailView.as_view(), name = 'deals_detail'),
+
+    #API Calls
+    path('api/add-products/', views.AddProductAPI.as_view(), name = 'add_products_api'),
 ]

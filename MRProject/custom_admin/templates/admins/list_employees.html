@@ -24,12 +24,15 @@
                 <td>{{employee.username}}</td>
                 <td>{{employee.email}}</td>
                 <td>{{employee.date_joined}}</td>
+                
                 <td>
-                    {% if employee.is_staff %}
-                        Active
-                    {% else %}
-                        Inactive
-                    {% endif %}
+                    <a href="{% url 'update_employee' pk=employee.id %}" class="text-dark">
+                        {% if employee.is_staff %}
+                            Active
+                        {% else %}
+                            Inactive
+                        {% endif %}
+                    </a>
                 </td>
             </tr>
         {% endfor %}

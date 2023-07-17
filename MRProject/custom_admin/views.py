@@ -7,13 +7,23 @@ from employee.forms import *
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from rest_framework.views import APIView
+from employee.serializers import *
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.response import Response
 # Create your views here.
 
 @login_required
 def index(request):
 
-    employee_count = User.objects.all().count()
-    return render(request, 'admins/index.html', {'employee_count': employee_count})
+    if request.user.is_superuser:
+        employee_count = User.objects.all().count()
+        
+        return render(request, 'admins/index.html', {'employee_count': employee_count})
+    else:
+        messages.error(request, "Only admins can access the admin dashboard")
+        return redirect('employee_home')
 
 
 class CreateEmployee(CreateView):
@@ -37,7 +47,7 @@ class UpdateEmployee(UpdateView):
     model = User
     template_name = 'admins/update_employee.html'
 
-    fields = ['first_name', 'last_name', 'email', 'is_staff']
+    fields = ['username', 'first_name', 'last_name', 'email', 'is_staff']
 
     success_url = reverse_lazy('list_employee')
 
@@ -52,44 +62,64 @@ class ListProducts(ListView):
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
 
-    def post(self, request):
+    # def post(self, request):
 
-        form = self.form_class(request.POST)
-        products = Product.objects.filter(employee = request.POST['first_name'])
-        context = {
-            'form': form,
-            'products': products
-        }
-        return render(request, self.template_name, context)
+    #     form = self.form_class(request.POST)
+    #     products = Product.objects.filter(employee = request.POST['first_name'])
+    #     form = self.form_class()
+    #     context = {
+    #         'form': form,
+    #         'products': products
+    #     }
+    #     return render(request, self.template_name, context)
 
+
+class ListProductsAPI(APIView):
+
+    model = Product
+    serializer_class = ProductSerializer
     
-class AdminDealsDetail(ListView):
-
-    model = DealsDetail
-    form_class = AdminDealsDetailForm
-    template_name = 'admins/deals_details.html'
 
     def get(self, request):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        first_name = request.GET.get('first_name')
+        queryset = Product.objects.filter(employee = first_name)
+        return Response(queryset.values())
 
-    def post(self, request):
-        form = self.form_class()
-        deals = DealsDetail.objects.filter(employee = request.POST['employee']).count()
-        employee = request.POST['employee']
-        context = {
-            'form': form,
-            'deals': deals,
-            'employee': employee
-        }
-        return render(request, self.template_name, context)
-
-
+    
 class AdminDeals(ListView):
 
     model = DealsDetail
     form_class = AdminDealsDetailForm
     template_name = 'admins/deals.html'
+
+    def get(self, request):
+        form = self.form_class()
+        deals = DealsDetail.objects.all().values('employee').annotate(total=Count('employee')).order_by('-total')
+        # employee = request.POST['employee']
+        context = {
+            'form': form,
+            'deals': deals,
+            # 'employee': employee
+        }
+        return render(request, self.template_name, context)
+
+    # def post(self, request):
+    #     form = self.form_class()
+    #     deals = DealsDetail.objects.all().values('employee').annotate(total=Count('employee'))
+    #     employee = request.POST['employee']
+    #     context = {
+    #         'form': form,
+    #         'deals': deals,
+    #         # 'employee': employee
+    #     }
+    #     return render(request, self.template_name, context)
+
+
+class AdminDealsDetail(ListView):
+
+    model = DealsDetail
+    form_class = AdminDealsDetailForm
+    template_name = 'admins/deals_details.html'
 
     def get(self, request):
 
@@ -105,7 +135,17 @@ class AdminDeals(ListView):
             'deals': deals
         }
         return render(request, self.template_name, context)
-    
+
+class AdminDealsDetailAPI(APIView):
+
+    model = DealsDetail
+    serializer_class = DealsDetailSerializer
+
+    def get(self, request):
+
+        queryset = DealsDetail.objects.filter(employee = request.GET.get('employee'))
+        return Response(queryset.values())
+
 
 class AdminDoctorSchedule(ListView):
 

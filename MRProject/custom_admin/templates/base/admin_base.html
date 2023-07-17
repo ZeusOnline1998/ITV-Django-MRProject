@@ -1,3 +1,4 @@
+{% load rest_framework %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +22,17 @@
 
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script> 
+
+    <style>
+        .table-row {
+            display: table-row;
+        }
+
+        .table-cell {
+            display: table-cell;
+        }
+    </style>
 
 </head>
 
@@ -30,7 +42,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        {% if user.is_authenticated and user.is_superuser %}
+        {% if request.user.is_authenticated and request.user.is_superuser %}
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -96,9 +108,11 @@
                         <i class="fas fa-fw fa-cog"></i>
                         <span>Deals</span>
                     </a>
+                    
                     <div id="collapseDeals" class="collapse" aria-labelledby="headingDeals" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Deals Details:</h6>
+                            <a class="collapse-item" href="{% url 'admin_deals' %}">Deals</a>
                             <a class="collapse-item" href="{% url 'admin_deals_details' %}">Deals Details</a>
                         </div>
                     </div>
@@ -161,7 +175,7 @@
                             <i class="fa fa-bars"></i>
                         </button>
 
-                        Welcome, {{user.first_name}}
+                        Welcome, {{request.user.first_name}}
 
                         <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-auto">
@@ -173,7 +187,7 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user}}</span>
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{request.user}}</span>
                                     <!-- <img class="img-profile rounded-circle"
                                         src="{% static 'img/undraw_profile.svg' %}"> -->
                                 </a>
